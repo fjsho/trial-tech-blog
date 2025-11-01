@@ -1,0 +1,263 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Tech Blog - Home" description="プログラミング、ガジェット、読書の記録">
+  <div class="hero">
+    <div class="hero-container">
+      <h1 class="hero-title">Tech Blog</h1>
+      <p class="hero-description">
+        プログラミング、ガジェット、読書の記録を通して<br />
+        エンジニアとしての学びと成長を共有します
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="cards">
+        <a href="/blog" class="card programming">
+          <div class="card-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </div>
+          <h2 class="card-title">Blog</h2>
+          <p class="card-description">技術メモ、スキルアップの記録、Zenn/Qiita記事</p>
+        </a>
+
+        <a href="/gadget" class="card gadget">
+          <div class="card-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <h2 class="card-title">Gadget</h2>
+          <p class="card-description">愛用しているガジェットやツールの紹介</p>
+        </a>
+
+        <a href="/books" class="card books">
+          <div class="card-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <h2 class="card-title">Books</h2>
+          <p class="card-description">読んだ技術書の記録とレビュー</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-alt">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <p class="section-text">
+        プログラミング、ガジェット、読書を愛するエンジニアです。<br />
+        日々の学びや経験をこのサイトで共有しています。
+      </p>
+      <a href="/about" class="button">もっと詳しく</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    background: linear-gradient(135deg, #95c7ec 0%, #7dc2bb 100%);
+    color: white;
+    padding: 4rem 1.5rem;
+    text-align: center;
+  }
+
+  .hero-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+  }
+
+  .hero-description {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin: 0;
+    opacity: 0.95;
+  }
+
+  .section {
+    padding: 4rem 1.5rem;
+  }
+
+  .section-alt {
+    background-color: #efefef;
+    padding: 4rem 1.5rem;
+    text-align: center;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: #333;
+  }
+
+  .section-text {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #666;
+    margin: 0 0 2rem 0;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    background-color: #95c7ec;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .button:hover {
+    background-color: #7ab5da;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(149, 199, 236, 0.3);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .card.programming {
+    border-color: #95c7ec;
+  }
+
+  .card.programming:hover {
+    border-color: #95c7ec;
+    box-shadow: 0 8px 24px rgba(149, 199, 236, 0.3);
+  }
+
+  .card.gadget {
+    border-color: #7dc2bb;
+  }
+
+  .card.gadget:hover {
+    border-color: #7dc2bb;
+    box-shadow: 0 8px 24px rgba(125, 194, 187, 0.3);
+  }
+
+  .card.books {
+    border-color: #f9d77f;
+  }
+
+  .card.books:hover {
+    border-color: #f9d77f;
+    box-shadow: 0 8px 24px rgba(249, 215, 127, 0.3);
+  }
+
+  .card-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .programming .card-icon {
+    background-color: rgba(149, 199, 236, 0.2);
+    color: #95c7ec;
+  }
+
+  .gadget .card-icon {
+    background-color: rgba(125, 194, 187, 0.2);
+    color: #7dc2bb;
+  }
+
+  .books .card-icon {
+    background-color: rgba(249, 215, 127, 0.2);
+    color: #f9d77f;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    color: #333;
+  }
+
+  .card-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 3rem 1rem;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-description {
+      font-size: 1rem;
+    }
+
+    .section,
+    .section-alt {
+      padding: 3rem 1rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .section-text {
+      font-size: 1rem;
+    }
+
+    .cards {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>

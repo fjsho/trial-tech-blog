@@ -1,0 +1,187 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About - Tech Blog" description="プログラミング、ガジェット、読書を愛するエンジニアについて">
+  <div class="hero-small">
+    <div class="hero-container">
+      <h1 class="hero-title">About Me</h1>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="content">
+        <h2 class="section-title">自己紹介</h2>
+        <p class="text">
+          プログラミング、ガジェット、読書を愛するエンジニアです。<br />
+          日々の技術的な学びや経験、愛用しているガジェット、読んだ本の記録をこのサイトで共有しています。
+        </p>
+
+        <h2 class="section-title">このサイトについて</h2>
+        <p class="text">
+          このサイトは、自分のエンジニアとしての活動履歴を集約し、<br />
+          他のエンジニアや企業の人事担当者に向けて情報を発信することを目的としています。
+        </p>
+
+        <div class="interests">
+          <div class="interest-card programming">
+            <h3 class="interest-title">Programming</h3>
+            <p class="interest-text">
+              技術的なメモやスキルアップの記録を残しています。<br />
+              Zenn、Qiitaなどのプラットフォームで投稿した記事も一括で確認できます。
+            </p>
+          </div>
+
+          <div class="interest-card gadget">
+            <h3 class="interest-title">Gadget</h3>
+            <p class="interest-text">
+              日々の開発やライフスタイルで愛用しているガジェットを紹介しています。<br />
+              他のエンジニアの参考になれば幸いです。
+            </p>
+          </div>
+
+          <div class="interest-card books">
+            <h3 class="interest-title">Books</h3>
+            <p class="interest-text">
+              読んだ技術書の記録とレビューを公開しています。<br />
+              読書を通じて得た知識や気づきを共有します。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero-small {
+    background: linear-gradient(135deg, #95c7ec 0%, #7dc2bb 100%);
+    color: white;
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+
+  .hero-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .section {
+    padding: 4rem 1.5rem;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .content {
+    background: white;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 2rem 0 1rem 0;
+    color: #333;
+  }
+
+  .section-title:first-child {
+    margin-top: 0;
+  }
+
+  .text {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #666;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .interests {
+    display: grid;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .interest-card {
+    padding: 2rem;
+    border-radius: 12px;
+    border: 2px solid;
+  }
+
+  .interest-card.programming {
+    background-color: rgba(149, 199, 236, 0.05);
+    border-color: #95c7ec;
+  }
+
+  .interest-card.gadget {
+    background-color: rgba(125, 194, 187, 0.05);
+    border-color: #7dc2bb;
+  }
+
+  .interest-card.books {
+    background-color: rgba(249, 215, 127, 0.05);
+    border-color: #f9d77f;
+  }
+
+  .interest-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: #333;
+  }
+
+  .interest-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .hero-small {
+      padding: 2rem 1rem;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .section {
+      padding: 3rem 1rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .text {
+      font-size: 1rem;
+    }
+
+    .interests {
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .interest-card {
+      padding: 1.5rem;
+    }
+
+    .interest-title {
+      font-size: 1.25rem;
+    }
+
+    .interest-text {
+      font-size: 0.9375rem;
+    }
+  }
+</style>
