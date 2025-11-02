@@ -1,13 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 ---
 
 <Layout title="About - Tech Blog" description="プログラミング、ガジェット、読書を愛するエンジニアについて">
-  <div class="hero-small">
-    <div class="hero-container">
-      <h1 class="hero-title">About Me</h1>
-    </div>
-  </div>
+  <Hero title="About Me" />
 
   <section class="section">
     <div class="container">
@@ -55,25 +52,6 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
-  .hero-small {
-    background: linear-gradient(135deg, #95c7ec 0%, #7dc2bb 100%);
-    color: white;
-    padding: 3rem 1.5rem;
-    text-align: center;
-  }
-
-  .hero-container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .hero-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0;
-    line-height: 1.2;
-  }
-
   .section {
     padding: 4rem 1.5rem;
   }
@@ -147,14 +125,6 @@ import Layout from '../layouts/Layout.astro';
   }
 
   @media (max-width: 768px) {
-    .hero-small {
-      padding: 2rem 1rem;
-    }
-
-    .hero-title {
-      font-size: 2rem;
-    }
-
     .section {
       padding: 3rem 1rem;
     }

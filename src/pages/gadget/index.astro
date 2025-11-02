@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
 import { supabase, type Gadget } from '../../lib/supabase';
 
 const { data: gadgetsData, error } = await supabase
@@ -13,12 +14,11 @@ const categories = ['all', ...new Set(gadgets.map(g => g.category))];
 ---
 
 <Layout title="Gadget - Tech Blog" description="愛用しているガジェットやツールの紹介">
-  <div class="hero-small">
-    <div class="hero-container">
-      <h1 class="hero-title">Gadget</h1>
-      <p class="hero-description">愛用しているガジェットやツールの紹介</p>
-    </div>
-  </div>
+  <Hero
+    title="Gadget"
+    description="愛用しているガジェットやツールの紹介"
+    variant="gadget"
+  />
 
   <section class="section">
     <div class="container">
@@ -100,31 +100,6 @@ const categories = ['all', ...new Set(gadgets.map(g => g.category))];
 </script>
 
 <style>
-  .hero-small {
-    background: linear-gradient(135deg, #7dc2bb 0%, #95c7ec 100%);
-    color: white;
-    padding: 3rem 1.5rem;
-    text-align: center;
-  }
-
-  .hero-container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .hero-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem 0;
-    line-height: 1.2;
-  }
-
-  .hero-description {
-    font-size: 1.125rem;
-    margin: 0;
-    opacity: 0.95;
-  }
-
   .section {
     padding: 4rem 1.5rem;
   }
@@ -302,18 +277,6 @@ const categories = ['all', ...new Set(gadgets.map(g => g.category))];
   }
 
   @media (max-width: 768px) {
-    .hero-small {
-      padding: 2rem 1rem;
-    }
-
-    .hero-title {
-      font-size: 2rem;
-    }
-
-    .hero-description {
-      font-size: 1rem;
-    }
-
     .section {
       padding: 3rem 1rem;
     }

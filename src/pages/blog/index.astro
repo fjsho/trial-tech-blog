@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
 import { supabase, type BlogPost } from '../../lib/supabase';
 
 const { data: posts, error } = await supabase
@@ -11,12 +12,11 @@ const blogPosts: BlogPost[] = posts || [];
 ---
 
 <Layout title="Blog - Tech Blog" description="技術メモ、スキルアップの記録、外部プラットフォーム記事">
-  <div class="hero-small">
-    <div class="hero-container">
-      <h1 class="hero-title">Blog</h1>
-      <p class="hero-description">技術メモ、スキルアップの記録、Zenn/Qiita記事</p>
-    </div>
-  </div>
+  <Hero
+    title="Blog"
+    description="技術メモ、スキルアップの記録、Zenn/Qiita記事"
+    variant="blog"
+  />
 
   <section class="section">
     <div class="container">
@@ -66,31 +66,6 @@ const blogPosts: BlogPost[] = posts || [];
 </Layout>
 
 <style>
-  .hero-small {
-    background: linear-gradient(135deg, #95c7ec 0%, #7dc2bb 100%);
-    color: white;
-    padding: 3rem 1.5rem;
-    text-align: center;
-  }
-
-  .hero-container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .hero-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem 0;
-    line-height: 1.2;
-  }
-
-  .hero-description {
-    font-size: 1.125rem;
-    margin: 0;
-    opacity: 0.95;
-  }
-
   .section {
     padding: 4rem 1.5rem;
   }
@@ -193,18 +168,6 @@ const blogPosts: BlogPost[] = posts || [];
   }
 
   @media (max-width: 768px) {
-    .hero-small {
-      padding: 2rem 1rem;
-    }
-
-    .hero-title {
-      font-size: 2rem;
-    }
-
-    .hero-description {
-      font-size: 1rem;
-    }
-
     .section {
       padding: 3rem 1rem;
     }

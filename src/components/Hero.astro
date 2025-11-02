@@ -1,0 +1,91 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  variant?: 'default' | 'blog' | 'gadget' | 'books';
+  size?: 'large' | 'small';
+}
+
+const { title, description, variant = 'default', size = 'small' } = Astro.props;
+
+const gradientMap = {
+  default: 'linear-gradient(135deg, #95c7ec 0%, #7dc2bb 100%)',
+  blog: 'linear-gradient(135deg, #95c7ec 0%, #7dc2bb 100%)',
+  gadget: 'linear-gradient(135deg, #7dc2bb 0%, #95c7ec 100%)',
+  books: 'linear-gradient(135deg, #f9d77f 0%, #95c7ec 100%)',
+};
+
+const gradient = gradientMap[variant];
+---
+
+<div class={`hero ${size === 'large' ? 'hero-large' : 'hero-small'}`} style={`background: ${gradient};`}>
+	<div class="hero-container">
+		<h1 class="hero-title">{title}</h1>
+		{description && <p class="hero-description" set:html={description} />}
+	</div>
+</div>
+
+<style>
+	.hero {
+		color: white;
+		text-align: center;
+	}
+
+	.hero-large {
+		padding: var(--spacing-xl) var(--spacing-md);
+	}
+
+	.hero-small {
+		padding: calc(var(--spacing-xl) * 0.75) var(--spacing-md);
+	}
+
+	.hero-container {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	.hero-title {
+		font-weight: var(--font-weight-bold);
+		margin: 0 0 var(--spacing-xs) 0;
+		line-height: 1.2;
+	}
+
+	.hero-large .hero-title {
+		font-size: 3rem;
+		margin-bottom: var(--spacing-sm);
+	}
+
+	.hero-small .hero-title {
+		font-size: 2.5rem;
+		margin-bottom: var(--spacing-xs);
+	}
+
+	.hero-description {
+		font-size: 1.125rem;
+		line-height: 1.8;
+		margin: 0;
+		opacity: 0.95;
+	}
+
+	@media (max-width: 768px) {
+		.hero-large {
+			padding: calc(var(--spacing-xl) * 0.75) var(--spacing-sm);
+		}
+
+		.hero-small {
+			padding: var(--spacing-lg) var(--spacing-sm);
+		}
+
+		.hero-large .hero-title {
+			font-size: 2rem;
+		}
+
+		.hero-small .hero-title {
+			font-size: 2rem;
+		}
+
+		.hero-description {
+			font-size: 1rem;
+		}
+	}
+</style>

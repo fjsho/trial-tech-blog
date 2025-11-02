@@ -1,17 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 ---
 
 <Layout title="Tech Blog - Home" description="プログラミング、ガジェット、読書の記録">
-  <div class="hero">
-    <div class="hero-container">
-      <h1 class="hero-title">Tech Blog</h1>
-      <p class="hero-description">
-        プログラミング、ガジェット、読書の記録を通して<br />
-        エンジニアとしての学びと成長を共有します
-      </p>
-    </div>
-  </div>
+  <Hero
+    title="Tech Blog"
+    description="プログラミング、ガジェット、読書の記録を通して<br />エンジニアとしての学びと成長を共有します"
+    size="large"
+  />
 
   <section class="section">
     <div class="container">
@@ -66,32 +63,6 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
-  .hero {
-    background: linear-gradient(135deg, #95c7ec 0%, #7dc2bb 100%);
-    color: white;
-    padding: 4rem 1.5rem;
-    text-align: center;
-  }
-
-  .hero-container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .hero-title {
-    font-size: 3rem;
-    font-weight: 700;
-    margin: 0 0 1rem 0;
-    line-height: 1.2;
-  }
-
-  .hero-description {
-    font-size: 1.125rem;
-    line-height: 1.8;
-    margin: 0;
-    opacity: 0.95;
-  }
-
   .section {
     padding: 4rem 1.5rem;
   }
@@ -230,18 +201,6 @@ import Layout from '../layouts/Layout.astro';
   }
 
   @media (max-width: 768px) {
-    .hero {
-      padding: 3rem 1rem;
-    }
-
-    .hero-title {
-      font-size: 2rem;
-    }
-
-    .hero-description {
-      font-size: 1rem;
-    }
-
     .section,
     .section-alt {
       padding: 3rem 1rem;

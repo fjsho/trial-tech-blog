@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
 import { supabase, type Book } from '../../lib/supabase';
 
 const { data: booksData, error } = await supabase
@@ -11,12 +12,11 @@ const books: Book[] = booksData || [];
 ---
 
 <Layout title="Books - Tech Blog" description="読んだ技術書の記録とレビュー">
-  <div class="hero-small">
-    <div class="hero-container">
-      <h1 class="hero-title">Books</h1>
-      <p class="hero-description">読んだ技術書の記録とレビュー</p>
-    </div>
-  </div>
+  <Hero
+    title="Books"
+    description="読んだ技術書の記録とレビュー"
+    variant="books"
+  />
 
   <section class="section">
     <div class="container">
@@ -83,31 +83,6 @@ const books: Book[] = booksData || [];
 </Layout>
 
 <style>
-  .hero-small {
-    background: linear-gradient(135deg, #f9d77f 0%, #95c7ec 100%);
-    color: white;
-    padding: 3rem 1.5rem;
-    text-align: center;
-  }
-
-  .hero-container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .hero-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem 0;
-    line-height: 1.2;
-  }
-
-  .hero-description {
-    font-size: 1.125rem;
-    margin: 0;
-    opacity: 0.95;
-  }
-
   .section {
     padding: 4rem 1.5rem;
   }
@@ -266,18 +241,6 @@ const books: Book[] = booksData || [];
   }
 
   @media (max-width: 768px) {
-    .hero-small {
-      padding: 2rem 1rem;
-    }
-
-    .hero-title {
-      font-size: 2rem;
-    }
-
-    .hero-description {
-      font-size: 1rem;
-    }
-
     .section {
       padding: 3rem 1rem;
     }
