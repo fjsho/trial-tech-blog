@@ -17,19 +17,19 @@
 <style>
 	.social {
 		display: flex;
-		gap: 1rem;
+		gap: var(--spacing-sm);
 		flex-shrink: 0;
 	}
 
 	.social a {
-		color: #666;
-		transition: color 0.2s ease;
+		color: var(--color-text-secondary);
+		transition: color var(--transition-fast);
 		display: flex;
 		align-items: center;
 	}
 
 	.social a:hover {
-		color: #95c7ec;
+		color: var(--color-primary);
 	}
 
 	@media (max-width: 768px) {
