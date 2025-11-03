@@ -1,5 +1,52 @@
 /* ============================================
-   1. デザイントークン（CSS変数）
+   1. ページ遷移アニメーション（FOUT対策）
+   ============================================ */
+/*
+ * Astro View Transitionsのカスタマイズ
+ * ごく短時間のフェードでフォントのちらつきを視覚的に隠す
+ */
+@view-transition {
+  navigation: auto;
+}
+
+/* 旧ページのフェードアウト */
+::view-transition-old(root) {
+  animation: fade-out 200ms ease-out;
+}
+
+/* 新ページのフェードイン */
+::view-transition-new(root) {
+  animation: fade-in 200ms ease-in;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* prefers-reduced-motionの場合はアニメーションを無効化 */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* ============================================
+   2. デザイントークン（CSS変数）
    ============================================ */
 :root {
   /* Colors */

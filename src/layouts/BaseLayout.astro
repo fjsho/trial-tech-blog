@@ -1,5 +1,6 @@
 ---
-// FOUT対策: font-display: fallbackを使用したカスタムフォント定義
+// FOUT対策: font-display: fallbackとページ遷移フェードを使用
+import { ClientRouter } from 'astro:transitions';
 import '../styles/fonts.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
@@ -20,6 +21,7 @@ const currentPath = Astro.url.pathname;
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
 		<title>{title} | {pageTitle}</title>
+		<ClientRouter />
 	</head>
 	<body>
 		<Header title={title} currentPath={currentPath} />
