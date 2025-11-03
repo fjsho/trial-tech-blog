@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
 ---
 
 <Layout title="Tech Blog - Home" description="プログラミング、ガジェット、読書の記録">
@@ -10,74 +11,55 @@ import Hero from '../components/Hero.astro';
     size="large"
   />
 
-  <section class="section">
-    <div class="container">
-      <div class="cards">
-        <a href="/blog" class="card programming">
-          <div class="card-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="16 18 22 12 16 6"></polyline>
-              <polyline points="8 6 2 12 8 18"></polyline>
-            </svg>
-          </div>
-          <h2 class="card-title">Blog</h2>
-          <p class="card-description">技術メモ、スキルアップの記録、Zenn/Qiita記事</p>
-        </a>
+  <Section maxWidth="1200px">
+    <div class="cards">
+      <a href="/blog" class="card programming">
+        <div class="card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+        </div>
+        <h2 class="card-title">Blog</h2>
+        <p class="card-description">技術メモ、スキルアップの記録、Zenn/Qiita記事</p>
+      </a>
 
-        <a href="/gadget" class="card gadget">
-          <div class="card-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-              <line x1="8" y1="21" x2="16" y2="21"></line>
-              <line x1="12" y1="17" x2="12" y2="21"></line>
-            </svg>
-          </div>
-          <h2 class="card-title">Gadget</h2>
-          <p class="card-description">愛用しているガジェットやツールの紹介</p>
-        </a>
+      <a href="/gadget" class="card gadget">
+        <div class="card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+        </div>
+        <h2 class="card-title">Gadget</h2>
+        <p class="card-description">愛用しているガジェットやツールの紹介</p>
+      </a>
 
-        <a href="/books" class="card books">
-          <div class="card-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
-          </div>
-          <h2 class="card-title">Books</h2>
-          <p class="card-description">読んだ技術書の記録とレビュー</p>
-        </a>
-      </div>
+      <a href="/books" class="card books">
+        <div class="card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <h2 class="card-title">Books</h2>
+        <p class="card-description">読んだ技術書の記録とレビュー</p>
+      </a>
     </div>
-  </section>
+  </Section>
 
-  <section class="section-alt">
-    <div class="container">
-      <h2 class="section-title">About Me</h2>
-      <p class="section-text">
-        プログラミング、ガジェット、読書を愛するエンジニアです。<br />
-        日々の学びや経験をこのサイトで共有しています。
-      </p>
-      <a href="/about" class="button">もっと詳しく</a>
-    </div>
-  </section>
+  <Section variant="alt" maxWidth="1200px">
+    <h2 class="section-title">About Me</h2>
+    <p class="section-text">
+      プログラミング、ガジェット、読書を愛するエンジニアです。<br />
+      日々の学びや経験をこのサイトで共有しています。
+    </p>
+    <a href="/about" class="button">もっと詳しく</a>
+  </Section>
 </Layout>
 
 <style>
-  .section {
-    padding: 4rem 1.5rem;
-  }
-
-  .section-alt {
-    background-color: #efefef;
-    padding: 4rem 1.5rem;
-    text-align: center;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
   .section-title {
     font-size: 2rem;
     font-weight: 700;
@@ -201,11 +183,6 @@ import Hero from '../components/Hero.astro';
   }
 
   @media (max-width: 768px) {
-    .section,
-    .section-alt {
-      padding: 3rem 1rem;
-    }
-
     .section-title {
       font-size: 1.5rem;
     }

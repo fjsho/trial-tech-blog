@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
 import { supabase, type BlogPost } from '../../lib/supabase';
 
 const { data: posts, error } = await supabase
@@ -18,63 +19,52 @@ const blogPosts: BlogPost[] = posts || [];
     variant="blog"
   />
 
-  <section class="section">
-    <div class="container">
-      {blogPosts.length === 0 ? (
-        <div class="empty-state">
-          <p>まだ記事が投稿されていません</p>
-        </div>
-      ) : (
-        <div class="posts-grid">
-          {blogPosts.map((post) => (
-            <article class="post-card">
-              <div class="post-meta">
-                <span class="post-platform">{post.platform}</span>
-                <time class="post-date">
-                  {new Date(post.published_at).toLocaleDateString('ja-JP', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </time>
-              </div>
-              <h2 class="post-title">
-                {post.external_url ? (
-                  <a href={post.external_url} target="_blank" rel="noopener noreferrer">
-                    {post.title}
-                  </a>
-                ) : (
-                  <a href={`/blog/${post.slug}`}>
-                    {post.title}
-                  </a>
-                )}
-              </h2>
-              <p class="post-description">{post.description}</p>
-              {post.tags.length > 0 && (
-                <div class="post-tags">
-                  {post.tags.map((tag) => (
-                    <span class="tag">{tag}</span>
-                  ))}
-                </div>
+  <Section maxWidth="900px">
+    {blogPosts.length === 0 ? (
+      <div class="empty-state">
+        <p>まだ記事が投稿されていません</p>
+      </div>
+    ) : (
+      <div class="posts-grid">
+        {blogPosts.map((post) => (
+          <article class="post-card">
+            <div class="post-meta">
+              <span class="post-platform">{post.platform}</span>
+              <time class="post-date">
+                {new Date(post.published_at).toLocaleDateString('ja-JP', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+            </div>
+            <h2 class="post-title">
+              {post.external_url ? (
+                <a href={post.external_url} target="_blank" rel="noopener noreferrer">
+                  {post.title}
+                </a>
+              ) : (
+                <a href={`/blog/${post.slug}`}>
+                  {post.title}
+                </a>
               )}
-            </article>
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
+            </h2>
+            <p class="post-description">{post.description}</p>
+            {post.tags.length > 0 && (
+              <div class="post-tags">
+                {post.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    )}
+  </Section>
 </Layout>
 
 <style>
-  .section {
-    padding: 4rem 1.5rem;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
   .empty-state {
     text-align: center;
     padding: 4rem 1.5rem;
@@ -168,10 +158,6 @@ const blogPosts: BlogPost[] = posts || [];
   }
 
   @media (max-width: 768px) {
-    .section {
-      padding: 3rem 1rem;
-    }
-
     .posts-grid {
       gap: 1.5rem;
     }

@@ -1,66 +1,56 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
 ---
 
 <Layout title="About - Tech Blog" description="プログラミング、ガジェット、読書を愛するエンジニアについて">
   <Hero title="About Me" />
 
-  <section class="section">
-    <div class="container">
-      <div class="content">
-        <h2 class="section-title">自己紹介</h2>
-        <p class="text">
-          プログラミング、ガジェット、読書を愛するエンジニアです。<br />
-          日々の技術的な学びや経験、愛用しているガジェット、読んだ本の記録をこのサイトで共有しています。
-        </p>
+  <Section maxWidth="800px">
+    <div class="content">
+      <h2 class="section-title">自己紹介</h2>
+      <p class="text">
+        プログラミング、ガジェット、読書を愛するエンジニアです。<br />
+        日々の技術的な学びや経験、愛用しているガジェット、読んだ本の記録をこのサイトで共有しています。
+      </p>
 
-        <h2 class="section-title">このサイトについて</h2>
-        <p class="text">
-          このサイトは、自分のエンジニアとしての活動履歴を集約し、<br />
-          他のエンジニアや企業の人事担当者に向けて情報を発信することを目的としています。
-        </p>
+      <h2 class="section-title">このサイトについて</h2>
+      <p class="text">
+        このサイトは、自分のエンジニアとしての活動履歴を集約し、<br />
+        他のエンジニアや企業の人事担当者に向けて情報を発信することを目的としています。
+      </p>
 
-        <div class="interests">
-          <div class="interest-card programming">
-            <h3 class="interest-title">Programming</h3>
-            <p class="interest-text">
-              技術的なメモやスキルアップの記録を残しています。<br />
-              Zenn、Qiitaなどのプラットフォームで投稿した記事も一括で確認できます。
-            </p>
-          </div>
+      <div class="interests">
+        <div class="interest-card programming">
+          <h3 class="interest-title">Programming</h3>
+          <p class="interest-text">
+            技術的なメモやスキルアップの記録を残しています。<br />
+            Zenn、Qiitaなどのプラットフォームで投稿した記事も一括で確認できます。
+          </p>
+        </div>
 
-          <div class="interest-card gadget">
-            <h3 class="interest-title">Gadget</h3>
-            <p class="interest-text">
-              日々の開発やライフスタイルで愛用しているガジェットを紹介しています。<br />
-              他のエンジニアの参考になれば幸いです。
-            </p>
-          </div>
+        <div class="interest-card gadget">
+          <h3 class="interest-title">Gadget</h3>
+          <p class="interest-text">
+            日々の開発やライフスタイルで愛用しているガジェットを紹介しています。<br />
+            他のエンジニアの参考になれば幸いです。
+          </p>
+        </div>
 
-          <div class="interest-card books">
-            <h3 class="interest-title">Books</h3>
-            <p class="interest-text">
-              読んだ技術書の記録とレビューを公開しています。<br />
-              読書を通じて得た知識や気づきを共有します。
-            </p>
-          </div>
+        <div class="interest-card books">
+          <h3 class="interest-title">Books</h3>
+          <p class="interest-text">
+            読んだ技術書の記録とレビューを公開しています。<br />
+            読書を通じて得た知識や気づきを共有します。
+          </p>
         </div>
       </div>
     </div>
-  </section>
+  </Section>
 </Layout>
 
 <style>
-  .section {
-    padding: 4rem 1.5rem;
-  }
-
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
   .content {
     background: white;
   }
@@ -125,10 +115,6 @@ import Hero from '../components/Hero.astro';
   }
 
   @media (max-width: 768px) {
-    .section {
-      padding: 3rem 1rem;
-    }
-
     .section-title {
       font-size: 1.5rem;
     }

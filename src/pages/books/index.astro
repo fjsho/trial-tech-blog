@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
 import { supabase, type Book } from '../../lib/supabase';
 
 const { data: booksData, error } = await supabase
@@ -18,80 +19,69 @@ const books: Book[] = booksData || [];
     variant="books"
   />
 
-  <section class="section">
-    <div class="container">
-      {books.length === 0 ? (
-        <div class="empty-state">
-          <p>まだ読書記録が登録されていません</p>
-        </div>
-      ) : (
-        <div class="books-grid">
-          {books.map((book) => (
-            <article class="book-card">
-              {book.image_url && (
-                <div class="book-cover">
-                  <img src={book.image_url} alt={book.title} loading="lazy" />
+  <Section maxWidth="1200px">
+    {books.length === 0 ? (
+      <div class="empty-state">
+        <p>まだ読書記録が登録されていません</p>
+      </div>
+    ) : (
+      <div class="books-grid">
+        {books.map((book) => (
+          <article class="book-card">
+            {book.image_url && (
+              <div class="book-cover">
+                <img src={book.image_url} alt={book.title} loading="lazy" />
+              </div>
+            )}
+            <div class="book-content">
+              <h2 class="book-title">{book.title}</h2>
+              <p class="book-author">{book.author}</p>
+
+              {book.rating && (
+                <div class="book-rating">
+                  {[...Array(5)].map((_, i) => (
+                    <span class={`star ${i < book.rating! ? 'filled' : ''}`}>★</span>
+                  ))}
                 </div>
               )}
-              <div class="book-content">
-                <h2 class="book-title">{book.title}</h2>
-                <p class="book-author">{book.author}</p>
 
-                {book.rating && (
-                  <div class="book-rating">
-                    {[...Array(5)].map((_, i) => (
-                      <span class={`star ${i < book.rating! ? 'filled' : ''}`}>★</span>
-                    ))}
-                  </div>
-                )}
+              {book.read_date && (
+                <p class="book-date">
+                  読了日: {new Date(book.read_date).toLocaleDateString('ja-JP', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </p>
+              )}
 
-                {book.read_date && (
-                  <p class="book-date">
-                    読了日: {new Date(book.read_date).toLocaleDateString('ja-JP', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </p>
-                )}
+              <p class="book-description">{book.description}</p>
 
-                <p class="book-description">{book.description}</p>
-
-                {book.tags.length > 0 && (
-                  <div class="book-tags">
-                    {book.tags.map((tag) => (
-                      <span class="tag">{tag}</span>
-                    ))}
-                  </div>
-                )}
-
-                <div class="book-links">
-                  {book.review_url && (
-                    <a href={book.review_url} class="link-btn review">レビュー記事</a>
-                  )}
-                  {book.amazon_url && (
-                    <a href={book.amazon_url} target="_blank" rel="noopener noreferrer" class="link-btn amazon">Amazonで見る</a>
-                  )}
+              {book.tags.length > 0 && (
+                <div class="book-tags">
+                  {book.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
                 </div>
+              )}
+
+              <div class="book-links">
+                {book.review_url && (
+                  <a href={book.review_url} class="link-btn review">レビュー記事</a>
+                )}
+                {book.amazon_url && (
+                  <a href={book.amazon_url} target="_blank" rel="noopener noreferrer" class="link-btn amazon">Amazonで見る</a>
+                )}
               </div>
-            </article>
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </Section>
 </Layout>
 
 <style>
-  .section {
-    padding: 4rem 1.5rem;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
   .empty-state {
     text-align: center;
     padding: 4rem 1.5rem;
@@ -241,10 +231,6 @@ const books: Book[] = booksData || [];
   }
 
   @media (max-width: 768px) {
-    .section {
-      padding: 3rem 1rem;
-    }
-
     .books-grid {
       grid-template-columns: 1fr;
       gap: 1.5rem;

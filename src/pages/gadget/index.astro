@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
 import { supabase, type Gadget } from '../../lib/supabase';
 
 const { data: gadgetsData, error } = await supabase
@@ -20,60 +21,58 @@ const categories = ['all', ...new Set(gadgets.map(g => g.category))];
     variant="gadget"
   />
 
-  <section class="section">
-    <div class="container">
-      <div class="filters" id="filters">
-        {categories.map((category) => (
-          <button
-            class={`filter-btn ${category === 'all' ? 'active' : ''}`}
-            data-category={category}
-          >
-            {category === 'all' ? 'すべて' : category}
-          </button>
-        ))}
-      </div>
+  <Section maxWidth="1200px">
+    <div class="filters" id="filters">
+      {categories.map((category) => (
+        <button
+          class={`filter-btn ${category === 'all' ? 'active' : ''}`}
+          data-category={category}
+        >
+          {category === 'all' ? 'すべて' : category}
+        </button>
+      ))}
+    </div>
 
-      {gadgets.length === 0 ? (
-        <div class="empty-state">
-          <p>まだガジェットが登録されていません</p>
-        </div>
-      ) : (
-        <div class="gadgets-grid" id="gadgets-grid">
-          {gadgets.map((gadget) => (
-            <article class="gadget-card" data-category={gadget.category}>
-              {gadget.image_url && (
-                <div class="gadget-image">
-                  <img src={gadget.image_url} alt={gadget.name} loading="lazy" />
+    {gadgets.length === 0 ? (
+      <div class="empty-state">
+        <p>まだガジェットが登録されていません</p>
+      </div>
+    ) : (
+      <div class="gadgets-grid" id="gadgets-grid">
+        {gadgets.map((gadget) => (
+          <article class="gadget-card" data-category={gadget.category}>
+            {gadget.image_url && (
+              <div class="gadget-image">
+                <img src={gadget.image_url} alt={gadget.name} loading="lazy" />
+              </div>
+            )}
+            <div class="gadget-content">
+              <div class="gadget-header">
+                <h2 class="gadget-title">{gadget.name}</h2>
+                <span class="gadget-category">{gadget.category}</span>
+              </div>
+              <p class="gadget-description">{gadget.description}</p>
+              {gadget.tags.length > 0 && (
+                <div class="gadget-tags">
+                  {gadget.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
                 </div>
               )}
-              <div class="gadget-content">
-                <div class="gadget-header">
-                  <h2 class="gadget-title">{gadget.name}</h2>
-                  <span class="gadget-category">{gadget.category}</span>
-                </div>
-                <p class="gadget-description">{gadget.description}</p>
-                {gadget.tags.length > 0 && (
-                  <div class="gadget-tags">
-                    {gadget.tags.map((tag) => (
-                      <span class="tag">{tag}</span>
-                    ))}
-                  </div>
+              <div class="gadget-links">
+                {gadget.review_url && (
+                  <a href={gadget.review_url} class="link-btn review">レビュー記事</a>
                 )}
-                <div class="gadget-links">
-                  {gadget.review_url && (
-                    <a href={gadget.review_url} class="link-btn review">レビュー記事</a>
-                  )}
-                  {gadget.amazon_url && (
-                    <a href={gadget.amazon_url} target="_blank" rel="noopener noreferrer" class="link-btn amazon">Amazonで見る</a>
-                  )}
-                </div>
+                {gadget.amazon_url && (
+                  <a href={gadget.amazon_url} target="_blank" rel="noopener noreferrer" class="link-btn amazon">Amazonで見る</a>
+                )}
               </div>
-            </article>
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </Section>
 </Layout>
 
 <script>
@@ -100,15 +99,6 @@ const categories = ['all', ...new Set(gadgets.map(g => g.category))];
 </script>
 
 <style>
-  .section {
-    padding: 4rem 1.5rem;
-  }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
   .filters {
     display: flex;
     gap: 0.75rem;
@@ -277,10 +267,6 @@ const categories = ['all', ...new Set(gadgets.map(g => g.category))];
   }
 
   @media (max-width: 768px) {
-    .section {
-      padding: 3rem 1rem;
-    }
-
     .gadgets-grid {
       grid-template-columns: 1fr;
       gap: 1.5rem;

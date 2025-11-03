@@ -1,0 +1,36 @@
+---
+interface Props {
+	variant?: 'default' | 'alt';
+	maxWidth?: '800px' | '900px' | '1200px';
+	class?: string;
+}
+
+const { variant = 'default', maxWidth = '1200px', class: className = '' } = Astro.props;
+---
+
+<section class={`section section-${variant} ${className}`}>
+	<div class="container" style={`max-width: ${maxWidth};`}>
+		<slot />
+	</div>
+</section>
+
+<style>
+	.section {
+		padding: 4rem 1.5rem;
+	}
+
+	.section-alt {
+		background-color: var(--color-bg-secondary);
+		text-align: center;
+	}
+
+	.container {
+		margin: 0 auto;
+	}
+
+	@media (max-width: 768px) {
+		.section {
+			padding: 3rem 1rem;
+		}
+	}
+</style>
