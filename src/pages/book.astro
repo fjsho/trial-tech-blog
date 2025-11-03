@@ -1,10 +1,10 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Hero from '../../components/Hero.astro';
-import Section from '../../components/Section.astro';
-import EmptyState from '../../components/EmptyState.astro';
-import BookCard from '../../components/BookCard.astro';
-import { supabase, type Book } from '../../lib/supabase';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import EmptyState from '../components/EmptyState.astro';
+import BookCard from '../components/BookCard.astro';
+import { supabase, type Book } from '../lib/supabase';
 
 const { data: booksData, error } = await supabase
   .from('books')
@@ -14,11 +14,11 @@ const { data: booksData, error } = await supabase
 const books: Book[] = booksData || [];
 ---
 
-<BaseLayout title="Books - Tech Blog" description="読んだ技術書の記録とレビュー">
+<BaseLayout title="Book - Tech Blog" description="読んだ技術書の記録とレビュー">
   <Hero
-    title="Books"
+    title="Book"
     description="読んだ技術書の記録とレビュー"
-    variant="books"
+    variant="book"
   />
 
   <Section maxWidth="1200px">

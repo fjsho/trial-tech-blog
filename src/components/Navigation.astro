@@ -10,7 +10,7 @@ const { currentPath } = Astro.props;
 	<a href="/about" class={currentPath === '/about' ? 'active' : ''}>About</a>
 	<a href="/blog" class={currentPath.startsWith('/blog') ? 'active' : ''}>Blog</a>
 	<a href="/gadget" class={currentPath.startsWith('/gadget') ? 'active' : ''}>Gadget</a>
-	<a href="/books" class={currentPath.startsWith('/books') ? 'active' : ''}>Books</a>
+	<a href="/book" class={currentPath.startsWith('/book') ? 'active' : ''}>Book</a>
 </nav>
 
 <style>

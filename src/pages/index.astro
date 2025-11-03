@@ -36,14 +36,14 @@ import Section from '../components/Section.astro';
         <p class="card-description">愛用しているガジェットやツールの紹介</p>
       </a>
 
-      <a href="/books" class="card books">
+      <a href="/book" class="card book">
         <div class="card-icon">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
           </svg>
         </div>
-        <h2 class="card-title">Books</h2>
+        <h2 class="card-title">Book</h2>
         <p class="card-description">読んだ技術書の記録とレビュー</p>
       </a>
     </div>
@@ -134,11 +134,11 @@ import Section from '../components/Section.astro';
     box-shadow: 0 8px 24px rgba(125, 194, 187, 0.3);
   }
 
-  .card.books {
+  .card.book {
     border-color: #f9d77f;
   }
 
-  .card.books:hover {
+  .card.book:hover {
     border-color: #f9d77f;
     box-shadow: 0 8px 24px rgba(249, 215, 127, 0.3);
   }
@@ -163,7 +163,7 @@ import Section from '../components/Section.astro';
     color: #7dc2bb;
   }
 
-  .books .card-icon {
+  .book .card-icon {
     background-color: rgba(249, 215, 127, 0.2);
     color: #f9d77f;
   }

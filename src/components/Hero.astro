@@ -2,7 +2,7 @@
 interface Props {
   title: string;
   description?: string;
-  variant?: 'default' | 'blog' | 'gadget' | 'books';
+  variant?: 'default' | 'blog' | 'gadget' | 'book';
   size?: 'large' | 'small';
 }
 
@@ -12,7 +12,7 @@ const gradientMap = {
   default: 'linear-gradient(135deg, #95c7ec 0%, #7dc2bb 100%)',
   blog: 'linear-gradient(135deg, #95c7ec 0%, #7dc2bb 100%)',
   gadget: 'linear-gradient(135deg, #7dc2bb 0%, #95c7ec 100%)',
-  books: 'linear-gradient(135deg, #f9d77f 0%, #95c7ec 100%)',
+  book: 'linear-gradient(135deg, #f9d77f 0%, #95c7ec 100%)',
 };
 
 const gradient = gradientMap[variant];
