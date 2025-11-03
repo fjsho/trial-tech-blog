@@ -4,14 +4,10 @@ import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import EmptyState from '../components/EmptyState.astro';
 import BlogPost from '../components/BlogPostCard.astro';
-import { supabase, type BlogPost as BlogPostType } from '../lib/supabase';
+import type { BlogPost as BlogPostType } from '../lib/types/blogPost';
+import { fetchQiitaArticles } from '../lib/api/qiita';
 
-const { data: posts, error } = await supabase
-  .from('blog_posts')
-  .select('*')
-  .order('published_at', { ascending: false });
-
-const blogPosts: BlogPostType[] = posts || [];
+const blogPosts: BlogPostType[] = await fetchQiitaArticles();
 ---
 
 <BaseLayout title="Blog - Tech Blog" description="技術メモ、スキルアップの記録、外部プラットフォーム記事">
