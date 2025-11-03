@@ -1,0 +1,191 @@
+---
+import type { Book } from '../lib/supabase';
+
+interface Props {
+  book: Book;
+}
+
+const { book } = Astro.props;
+---
+
+<article class="book-card">
+  {book.image_url && (
+    <div class="book-cover">
+      <img src={book.image_url} alt={book.title} loading="lazy" />
+    </div>
+  )}
+  <div class="book-content">
+    <h2 class="book-title">{book.title}</h2>
+    <p class="book-author">{book.author}</p>
+
+    {book.rating && (
+      <div class="book-rating">
+        {[...Array(5)].map((_, i) => (
+          <span class={`star ${i < book.rating! ? 'filled' : ''}`}>★</span>
+        ))}
+      </div>
+    )}
+
+    {book.read_date && (
+      <p class="book-date">
+        読了日: {new Date(book.read_date).toLocaleDateString('ja-JP', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}
+      </p>
+    )}
+
+    <p class="book-description">{book.description}</p>
+
+    {book.tags.length > 0 && (
+      <div class="book-tags">
+        {book.tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )}
+
+    <div class="book-links">
+      {book.review_url && (
+        <a href={book.review_url} class="link-btn review">レビュー記事</a>
+      )}
+      {book.amazon_url && (
+        <a href={book.amazon_url} target="_blank" rel="noopener noreferrer" class="link-btn amazon">Amazonで見る</a>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .book-card {
+    background: white;
+    border: 2px solid #f9d77f;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(249, 215, 127, 0.3);
+  }
+
+  .book-cover {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .book-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .book-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: #333;
+    line-height: 1.4;
+  }
+
+  .book-author {
+    font-size: 0.9375rem;
+    color: #666;
+    margin: 0;
+  }
+
+  .book-rating {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .star {
+    color: #ddd;
+    font-size: 1.25rem;
+  }
+
+  .star.filled {
+    color: #f9d77f;
+  }
+
+  .book-date {
+    font-size: 0.875rem;
+    color: #999;
+    margin: 0;
+  }
+
+  .book-description {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: #666;
+    margin: 0;
+  }
+
+  .book-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: #efefef;
+    color: #666;
+    border-radius: 4px;
+    font-size: 0.8125rem;
+  }
+
+  .book-links {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+    flex-wrap: wrap;
+  }
+
+  .link-btn {
+    display: inline-block;
+    padding: 0.625rem 1.25rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+
+  .link-btn.review {
+    background-color: #f9d77f;
+    color: #333;
+  }
+
+  .link-btn.review:hover {
+    background-color: #f7cd66;
+  }
+
+  .link-btn.amazon {
+    background-color: #ff9900;
+    color: white;
+  }
+
+  .link-btn.amazon:hover {
+    background-color: #e68a00;
+  }
+</style>
