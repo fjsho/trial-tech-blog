@@ -28,6 +28,7 @@ const categories = ['all', ...new Set(gadgets.map(g => g.category))];
   />
 
   <Section maxWidth="1200px">
+    <!-- TODO: categoryフィルターをもっと上に寄せたい。他の画面とレイアウトが違って見える。セクションの上に乗せたい -->
     <div class="filters" id="filters">
       {categories.map((category) => (
         <button
