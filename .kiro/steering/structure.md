@@ -39,20 +39,30 @@
 ### `src/` - アプリケーションソースコード
 ```
 src/
-├── components/         # 再利用可能なAstroコンポーネント (現在は空)
+├── components/         # 再利用可能なAstroコンポーネント
+│   ├── EmptyState.astro  # 空状態表示コンポーネント
+│   ├── Footer.astro      # フッターコンポーネント
+│   ├── Header.astro      # ヘッダーコンテナコンポーネント
+│   ├── Hero.astro        # ヒーローセクションコンポーネント
+│   ├── Logo.astro        # ロゴリンクコンポーネント
+│   ├── Navigation.astro  # ナビゲーションメニューコンポーネント
+│   ├── Section.astro     # セクションレイアウトコンポーネント
+│   └── Social.astro      # ソーシャルメディアリンクコンポーネント
 ├── layouts/            # ページレイアウトコンポーネント
-│   └── Layout.astro    # ベースレイアウト (ヘッダー、フッター、グローバルスタイル)
+│   └── Layout.astro    # ベースレイアウト (HTML構造、メタタグ)
 ├── lib/                # ユーティリティ・ライブラリコード
 │   └── supabase.ts     # Supabaseクライアント初期化と型定義
-└── pages/              # ルーティングページ (ファイルベースルーティング)
-    ├── index.astro     # トップページ (/)
-    ├── about.astro     # アバウトページ (/about)
-    ├── blog/           # ブログセクション
-    │   └── index.astro # ブログ一覧 (/blog)
-    ├── gadget/         # ガジェットセクション
-    │   └── index.astro # ガジェット一覧 (/gadget)
-    └── books/          # 読書セクション
-        └── index.astro # 読書一覧 (/books)
+├── pages/              # ルーティングページ (ファイルベースルーティング)
+│   ├── index.astro     # トップページ (/)
+│   ├── about.astro     # アバウトページ (/about)
+│   ├── blog/           # ブログセクション
+│   │   └── index.astro # ブログ一覧 (/blog)
+│   ├── gadget/         # ガジェットセクション
+│   │   └── index.astro # ガジェット一覧 (/gadget)
+│   └── books/          # 読書セクション
+│       └── index.astro # 読書一覧 (/books)
+└── styles/             # グローバルスタイル
+    └── global.css      # CSS変数・デザイントークン定義
 ```
 
 ### `public/` - 静的アセット
@@ -81,25 +91,62 @@ supabase/
 ---
 // フロントマター: TypeScript/JavaScriptロジック
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
 // データフェッチ、計算、インポート等
 ---
 
-<!-- HTMLテンプレート -->
+<!-- HTMLテンプレート: コンポーネント合成 -->
 <Layout title="..." description="...">
-  <!-- ページコンテンツ -->
+  <Hero title="..." description="..." variant="..." />
+  <Section maxWidth="...">
+    <!-- ページコンテンツ -->
+  </Section>
 </Layout>
 
 <style>
-  /* スコープドCSS */
+  /* ページ固有のスコープドCSS */
 </style>
+```
+
+### コンポーネント階層構造
+```
+Layout.astro (ベースレイアウト)
+├── Header.astro (ヘッダー構造)
+│   ├── Logo.astro
+│   ├── Navigation.astro
+│   └── Social.astro
+├── [Page Content] (ページ固有のコンテンツ)
+│   ├── Hero.astro (ヒーローセクション)
+│   ├── Section.astro (セクションコンテナ)
+│   └── EmptyState.astro (空状態表示)
+└── Footer.astro
 ```
 
 ### レイアウトコンポーネント
 - `Layout.astro`: 全ページ共通のベースレイアウト
-  - グローバルフォント読み込み
-  - ヘッダーナビゲーション
-  - フッター
+  - HTML構造（head, body）
   - メタタグ設定
+  - グローバルスタイル読み込み
+  - Header/Footerコンポーネントの配置
+
+### 再利用可能コンポーネント
+- `Hero.astro`: ページトップのヒーローセクション
+  - Props: `title`, `description?`, `variant?`, `size?`
+  - バリアント別グラデーション対応
+- `Section.astro`: セクションレイアウトコンテナ
+  - Props: `variant?`, `maxWidth?`, `class?`
+  - 一貫したパディングとコンテナ幅管理
+- `EmptyState.astro`: 空状態表示
+  - Props: `message`
+  - ブログ/ガジェット/読書記録が未登録時の表示
+- `Header.astro`: ヘッダーコンテナ
+  - Logo, Navigation, Socialのコンポジション
+- `Footer.astro`: フッター（著作権表示）
+- `Logo.astro`: サイトロゴリンク
+- `Navigation.astro`: ナビゲーションメニュー
+  - Props: `currentPath` (アクティブ状態管理)
+- `Social.astro`: ソーシャルメディアリンク
 
 ### データアクセスパターン
 ```typescript
@@ -133,9 +180,10 @@ const { data, error } = await supabase
 
 ### インポート順序
 1. 外部ライブラリ (`@fontsource`, `@supabase`)
-2. Astroコンポーネント (`Layout.astro`)
-3. ローカルモジュール (`../lib/supabase`)
-4. 型定義 (必要に応じて)
+2. Astroレイアウトコンポーネント (`Layout.astro`)
+3. Astro再利用コンポーネント (`Hero.astro`, `Section.astro`)
+4. ローカルモジュール (`../lib/supabase`)
+5. 型定義 (必要に応じて)
 
 ### パス解決
 - **相対パス**: `../layouts/Layout.astro`
@@ -150,28 +198,46 @@ const { data, error } = await supabase
 
 ### 2. コンポーネント分離
 - レイアウト: `src/layouts/`
-- 再利用コンポーネント: `src/components/` (将来的に追加)
+- 再利用コンポーネント: `src/components/`
 - ページ: `src/pages/`
 
-### 3. スコープドCSS
-- 各`.astro`ファイルの`<style>`タグはそのコンポーネントにスコープ
-- グローバルスタイルは`:global()`セレクタで定義
+### 3. CSS設計パターン
+- **グローバルCSS変数**: `src/styles/global.css`でデザイントークン定義
+  - カラーパレット (`--color-primary`, `--color-text-primary`)
+  - スペーシング (`--spacing-xs`, `--spacing-md`)
+  - タイポグラフィ (`--font-size-base`, `--font-weight-bold`)
+  - トランジション (`--transition-fast`)
+- **コンポーネントスコープドCSS**: 各`.astro`ファイルの`<style>`タグ
+  - Astroが自動的にユニークハッシュを生成してスコープ化
+  - コンポーネント固有のスタイルを自己完結的に定義
+  - CSS変数を活用して一貫性を保ちつつ独立性を維持
+- **グローバルスタイル**: `:global()`セレクタで必要に応じて定義
 
-### 4. 型安全性
+### 4. コンポーネントコンポジション
+- **Lego blockアプローチ**: 小さな独立したコンポーネントを組み合わせて構築
+- **Props駆動**: コンポーネントの振る舞いと見た目をPropsで制御
+  - `Hero.astro`: variant/size propsで異なるスタイルを実現
+  - `Section.astro`: maxWidth/variant propsでレイアウト調整
+  - `Navigation.astro`: currentPath propsでアクティブ状態管理
+- **コンテナコンポーネント**: Header.astroのように子コンポーネントを配置
+- **スロット**: Layout.astroで子要素を柔軟に配置
+
+### 5. 型安全性
 - TypeScript strict モード有効
 - Supabaseデータ型を明示的に定義
 - Astro自動型生成の活用
+- コンポーネントPropsのインターフェース定義
 
-### 5. 環境変数管理
+### 6. 環境変数管理
 - `VITE_`プレフィックスでクライアントサイド公開
 - `.env`ファイルで管理 (Gitに含めない)
 
-### 6. 静的生成優先
+### 7. 静的生成優先
 - ビルド時にHTMLを生成
 - クライアントサイドでAPIコール (必要に応じて)
 - SSR未使用 (現在は完全静的)
 
-### 7. セマンティックHTML
+### 8. セマンティックHTML
 - 適切なHTMLタグ使用 (`<header>`, `<nav>`, `<main>`, `<footer>`, `<section>`)
 - アクセシビリティ属性 (`aria-label`)
 - レスポンシブデザイン
