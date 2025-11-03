@@ -4,14 +4,20 @@ import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import EmptyState from '../components/EmptyState.astro';
 import BookCard from '../components/BookCard.astro';
-import { supabase, type Book } from '../lib/supabase';
+import { getCollection } from 'astro:content';
+import type { Book } from '../lib/types/book';
 
-const { data: booksData, error } = await supabase
-  .from('books')
-  .select('*')
-  .order('read_date', { ascending: false, nullsFirst: false });
+const bookEntries = await getCollection('books');
 
-const books: Book[] = booksData || [];
+// Sort by read_date descending, nulls last
+const books: Book[] = bookEntries
+  .map((entry: any) => entry.data)
+  .sort((a: Book, b: Book) => {
+    if (!a.read_date && !b.read_date) return 0;
+    if (!a.read_date) return 1;
+    if (!b.read_date) return -1;
+    return new Date(b.read_date).getTime() - new Date(a.read_date).getTime();
+  });
 ---
 
 <BaseLayout title="Book - Tech Blog" description="読んだ技術書の記録とレビュー">
