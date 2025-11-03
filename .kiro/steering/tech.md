@@ -2,11 +2,12 @@
 
 ## Architecture
 
-**静的サイト生成 (SSG) + バックエンドAPI連携アーキテクチャ**
+**静的サイト生成 (SSG) + 外部API連携 + Content Collectionsアーキテクチャ**
 
 - Astroによる静的サイト生成で高速なページ配信
-- Supabaseをバックエンドとしたデータ管理
-- クライアントサイドでのSupabase API呼び出し
+- 外部プラットフォーム（Zenn/Qiita）のAPIからブログ記事を取得
+- Astro Content Collectionsによるガジェット・書籍の管理（Markdown + Frontmatter）
+- ビルド時のデータフェッチとSSG
 - レスポンシブデザインによるマルチデバイス対応
 
 ## Frontend
@@ -31,39 +32,64 @@
 - Sticky ヘッダー
 - アクティブナビゲーション表示
 
-## Backend
+## Backend / Data Layer
 
-### データベース・認証
-- **Supabase**: BaaS (Backend as a Service)
-  - PostgreSQLデータベース
-  - RESTful API
-  - リアルタイムサブスクリプション対応
+### 外部API連携
+- **Zenn API**: `https://zenn.dev/api/articles?username={username}`
+  - ユーザー記事一覧の取得
+  - ビルド時にAPIからデータ取得
+- **Qiita API**: `https://qiita.com/api/v2/users/{username}/items`
+  - ユーザー記事一覧の取得（最大100件/ページ）
+  - ビルド時にAPIからデータ取得
 
-### クライアントライブラリ
-- **@supabase/supabase-js 2.77.0**: JavaScript/TypeScript クライアント
+### Content Collections
+- **Astro Content Collections**: Markdown + Frontmatterによるデータ管理
+  - `src/content/gadgets/`: ガジェット情報
+  - `src/content/books/`: 書籍情報
+  - Zodスキーマによる型安全性
+  - ビルド時の型生成とバリデーション
 
 ### データモデル
 ```typescript
-// Blog Posts
+// Blog Posts (外部API)
 type BlogPost = {
-  id, title, slug, description, content,
-  external_url, platform, published_at,
-  tags[], created_at, updated_at
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  content: string;
+  external_url: string;
+  platform: 'zenn' | 'qiita';
+  published_at: string;
+  tags: string[];
+  created_at: string;
+  updated_at: string;
 }
 
-// Gadgets
+// Gadgets (Content Collection)
 type Gadget = {
-  id, name, slug, description, image_url,
-  category, review_url, amazon_url,
-  tags[], created_at, updated_at
+  name: string;
+  description: string;
+  image_url?: string;
+  category: string;
+  review_url?: string;
+  amazon_url?: string;
+  tags: string[];
+  created_at: string;
 }
 
-// Books
+// Books (Content Collection)
 type Book = {
-  id, title, slug, author, description,
-  image_url, review_url, amazon_url,
-  read_date, rating, tags[],
-  created_at, updated_at
+  title: string;
+  author: string;
+  description: string;
+  image_url?: string;
+  review_url?: string;
+  amazon_url?: string;
+  read_date?: string;
+  rating?: number; // 1-5
+  tags: string[];
+  created_at: string;
 }
 ```
 
@@ -96,8 +122,8 @@ type Book = {
 
 ### 必須環境変数
 ```
-VITE_SUPABASE_URL          # SupabaseプロジェクトのURL
-VITE_SUPABASE_ANON_KEY     # Supabaseの匿名キー (公開可能)
+VITE_ZENN_USERNAME         # Zennのユーザー名
+VITE_QIITA_USERNAME        # Qiitaのユーザー名
 ```
 
 ### 設定ファイル
@@ -106,7 +132,7 @@ VITE_SUPABASE_ANON_KEY     # Supabaseの匿名キー (公開可能)
 
 ### セキュリティ注意事項
 - `.env`ファイルは`.gitignore`に含める
-- ANON_KEYは公開可能だが、Row Level Security (RLS)を適切に設定すること
+- 外部APIはパブリックAPIのため認証不要
 - 本番環境では環境変数を適切に設定
 
 ## Port Configuration
@@ -116,7 +142,8 @@ VITE_SUPABASE_ANON_KEY     # Supabaseの匿名キー (公開可能)
 - **4322**: Astroプレビューサーバー (デフォルト)
 
 ### 外部サービス
-- **Supabase**: HTTPSによる外部API接続 (ポート443)
+- **Zenn API**: HTTPSによる外部API接続 (ポート443)
+- **Qiita API**: HTTPSによる外部API接続 (ポート443)
 
 ## Build & Deployment
 
@@ -132,7 +159,56 @@ VITE_SUPABASE_ANON_KEY     # Supabaseの匿名キー (公開可能)
 - 任意の静的ホスティングサービス
 
 ### デプロイ時の注意点
-- 環境変数を適切に設定
+- 環境変数を適切に設定（`VITE_ZENN_USERNAME`, `VITE_QIITA_USERNAME`）
 - ビルドコマンド: `npm run build`
 - 出力ディレクトリ: `dist`
 - Node.jsバージョン指定 (v18以上)
+- ビルド時に外部API（Zenn/Qiita）へアクセス可能であること
+
+## サイト設定の中央管理
+
+### メタデータ管理
+サイト全体のメタデータは`BaseLayout.astro`で中央管理されています：
+
+```typescript
+// src/layouts/BaseLayout.astro
+const { pageTitle } = Astro.props;
+const title = 'くじらのTech';
+const description = 'プログラミング、ガジェット、読書の記録';
+
+// HTMLヘッダー
+<title>{title} | {pageTitle}</title>
+<meta name="description" content={description} />
+```
+
+このアプローチにより：
+- サイトタイトルとディスクリプションが一箇所で管理される
+- 全ページで一貫したブランディングが保たれる
+- SEOに必要なメタ情報が統一される
+- HeaderとFooterにもtitleが渡され、表示に使用される
+
+## Technology Migration History
+
+### 2025-11-03: Supabase削除とAPI連携への移行
+**変更内容:**
+- Supabase依存を完全削除
+- Zenn/Qiita APIからビルド時にブログ記事を取得
+- ガジェット・書籍をAstro Content Collectionsで管理
+- サイトタイトル「くじらのTech」の設定とメタデータの中央管理
+
+**削除されたもの:**
+- `@supabase/supabase-js`パッケージ
+- `src/lib/supabase.ts`
+- Supabaseマイグレーションファイル（blog, gadget, books テーブル）
+
+**追加されたもの:**
+- `src/lib/api/zenn.ts` - Zenn API クライアント
+- `src/lib/api/qiita.ts` - Qiita API クライアント
+- `src/content/config.ts` - Content Collections設定
+- `src/content/gadgets/` - ガジェットMarkdownファイル
+- `src/content/books/` - 書籍Markdownファイル
+
+**改善されたもの:**
+- `BaseLayout.astro` - サイトタイトルとディスクリプションの中央管理
+- `Header.astro`/`Footer.astro` - titleをpropsで受け取るように変更
+- `index.astro`/`about.astro` - ページタイトルとコンテンツの充実化

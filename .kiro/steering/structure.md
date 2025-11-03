@@ -14,7 +14,6 @@
 ├── .vscode/             # VSCode設定
 ├── public/              # 静的アセット (favicon等)
 ├── src/                 # ソースコード
-├── supabase/            # Supabaseマイグレーション
 ├── astro.config.mjs     # Astro設定ファイル
 ├── package.json         # npm依存関係定義
 ├── tsconfig.json        # TypeScript設定
@@ -51,13 +50,25 @@ src/
 │   ├── Navigation.astro   # ナビゲーションメニューコンポーネント
 │   ├── Section.astro      # セクションレイアウトコンポーネント
 │   └── Social.astro       # ソーシャルメディアリンクコンポーネント
+├── content/            # Content Collections (Markdown + Frontmatter)
+│   ├── config.ts       # Content Collections設定とスキーマ定義
+│   ├── gadgets/        # ガジェット情報（Markdownファイル）
+│   └── books/          # 書籍情報（Markdownファイル）
 ├── layouts/            # ページレイアウトコンポーネント
 │   └── BaseLayout.astro   # ベースレイアウト (HTML構造、メタタグ)
 ├── lib/                # ユーティリティ・ライブラリコード
-│   └── supabase.ts     # Supabaseクライアント初期化と型定義
+│   ├── api/            # 外部API クライアント
+│   │   ├── zenn.ts     # Zenn API クライアント
+│   │   └── qiita.ts    # Qiita API クライアント
+│   └── types/          # 型定義
+│       ├── blogPost.ts # ブログ記事の型定義
+│       ├── gadget.ts   # ガジェットの型定義
+│       ├── book.ts     # 書籍の型定義
+│       ├── zenn.ts     # Zenn API レスポンスの型定義
+│       └── qiita.ts    # Qiita API レスポンスの型定義
 ├── pages/              # ルーティングページ (ファイルベースルーティング)
-│   ├── index.astro     # トップページ (/)
-│   ├── about.astro     # アバウトページ (/about)
+│   ├── index.astro     # トップページ (/) - 3つのカテゴリカード表示
+│   ├── about.astro     # アバウトページ (/about) - サイト運営者の自己紹介とサイト説明
 │   ├── blog.astro      # ブログ一覧ページ (/blog)
 │   ├── gadget.astro    # ガジェット一覧ページ (/gadget)
 │   └── book.astro      # 読書一覧ページ (/book)
@@ -78,10 +89,16 @@ public/
 └── types.d.ts          # Astro環境型定義
 ```
 
-### `supabase/` - データベーススキーマ
+### `src/content/` - Content Collections
 ```
-supabase/
-└── migrations/         # データベースマイグレーションファイル
+src/content/
+├── config.ts           # Content Collections設定
+│                       # - Zodスキーマ定義
+│                       # - ガジェット・書籍のバリデーション
+├── gadgets/            # ガジェット情報（.mdファイル）
+│   └── *.md            # Frontmatter: name, category, tags, etc.
+└── books/              # 書籍情報（.mdファイル）
+    └── *.md            # Frontmatter: title, author, rating, etc.
 ```
 
 ## Code Organization Patterns
@@ -171,14 +188,28 @@ BaseLayout.astro (ベースレイアウト)
   - ブログ/ガジェット/読書記録が未登録時の表示
 
 ### データアクセスパターン
-```typescript
-// src/lib/supabase.ts でクライアント初期化
-import { supabase } from '../lib/supabase';
 
-// ページコンポーネントでデータフェッチ
-const { data, error } = await supabase
-  .from('table_name')
-  .select('*');
+#### 外部API（ブログ記事）
+```typescript
+// Zenn/Qiita記事の取得
+import { fetchZennArticles } from '../lib/api/zenn';
+import { fetchQiitaArticles } from '../lib/api/qiita';
+
+const zennArticles = await fetchZennArticles();
+const qiitaArticles = await fetchQiitaArticles();
+const allPosts = [...zennArticles, ...qiitaArticles].sort(...);
+```
+
+#### Content Collections（ガジェット・書籍）
+```typescript
+// Content Collectionsからデータ取得
+import { getCollection } from 'astro:content';
+
+const gadgetEntries = await getCollection('gadgets');
+const bookEntries = await getCollection('books');
+
+// 型安全なデータアクセス
+const gadgets = gadgetEntries.map(entry => entry.data);
 ```
 
 ## File Naming Conventions
@@ -259,12 +290,58 @@ const { data, error } = await supabase
 - `VITE_`プレフィックスでクライアントサイド公開
 - `.env`ファイルで管理 (Gitに含めない)
 
-### 7. 静的生成優先
-- ビルド時にHTMLを生成
-- クライアントサイドでAPIコール (必要に応じて)
-- SSR未使用 (現在は完全静的)
+### 7. 静的生成とビルド時データフェッチ
+- ビルド時に全HTMLを生成
+- ビルド時に外部API（Zenn/Qiita）からデータ取得
+- Content Collectionsから静的データを読み込み
+- SSR未使用 (完全静的サイト)
 
 ### 8. セマンティックHTML
 - 適切なHTMLタグ使用 (`<header>`, `<nav>`, `<main>`, `<footer>`, `<section>`)
 - アクセシビリティ属性 (`aria-label`)
 - レスポンシブデザイン
+
+## サイト情報
+
+### ブランディング
+- **サイトタイトル**: くじらのTech
+- **サイト説明**: プログラミングのこと、好きなガジェット、読書の記録
+- **テーマカラー**:
+  - Programming (Blog): #95c7ec (青)
+  - Gadget: #7dc2bb (緑)
+  - Book: #f9d77f (黄)
+
+### 主要ページ
+- **トップページ** (`/`): 3つのカテゴリ（Blog/Gadget/Book）への導線カード
+- **About** (`/about`): 運営者の自己紹介、サイトの目的、アフィリエイトリンクに関する説明
+- **Blog** (`/blog`): Zenn/Qiita記事の統合一覧
+- **Gadget** (`/gadget`): 愛用ガジェットの紹介
+- **Book** (`/book`): 技術書の読書記録
+
+## Project Structure Evolution
+
+### 2025-11-03: データ管理のアーキテクチャ変更
+
+**削除されたディレクトリ/ファイル:**
+- `supabase/migrations/` - データベースマイグレーション（不要になった）
+- `src/lib/supabase.ts` - Supabaseクライアント
+
+**追加されたディレクトリ/ファイル:**
+- `src/content/` - Astro Content Collections
+  - `src/content/config.ts` - スキーマ定義
+  - `src/content/gadgets/` - ガジェットMarkdownファイル
+  - `src/content/books/` - 書籍Markdownファイル
+- `src/lib/api/` - 外部API クライアント
+  - `src/lib/api/zenn.ts`
+  - `src/lib/api/qiita.ts`
+- `src/lib/types/` - 型定義の整理
+  - `src/lib/types/blogPost.ts`
+  - `src/lib/types/gadget.ts`
+  - `src/lib/types/book.ts`
+  - `src/lib/types/zenn.ts`
+  - `src/lib/types/qiita.ts`
+
+**変更の影響:**
+- ブログ記事: データベースから外部API取得に変更
+- ガジェット・書籍: データベースからContent Collections（Markdown）に変更
+- データ永続化: なし（完全な静的サイト、ビルド時に全データ取得）
