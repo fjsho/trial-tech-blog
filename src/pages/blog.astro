@@ -6,8 +6,16 @@ import EmptyState from '../components/EmptyState.astro';
 import BlogPost from '../components/BlogPostCard.astro';
 import type { BlogPost as BlogPostType } from '../lib/types/blogPost';
 import { fetchQiitaArticles } from '../lib/api/qiita';
+import { fetchZennArticles } from '../lib/api/zenn';
 
-const blogPosts: BlogPostType[] = await fetchQiitaArticles();
+// QiitaとZennの記事情報を取得
+const qiitaArticles: BlogPostType[] = await fetchQiitaArticles();
+const zennArticles: BlogPostType[] = await fetchZennArticles();
+
+// 両方の記事を合わせて、published_atの新しい順にソート
+const blogPosts: BlogPostType[] = [...qiitaArticles, ...zennArticles].sort(
+  (a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
+);
 ---
 
 <BaseLayout title="Blog - Tech Blog" description="技術メモ、スキルアップの記録、外部プラットフォーム記事">
