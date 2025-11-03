@@ -7,6 +7,9 @@ import GadgetCard from '../components/GadgetCard.astro';
 import { getCollection } from 'astro:content';
 import type { Gadget } from '../lib/types/gadget';
 
+const pageTitle = 'Gadget';
+const pageDescription = '愛用しているガジェットやツールの紹介';
+
 const gadgetEntries = await getCollection('gadgets');
 
 // Sort by created_at descending
@@ -17,10 +20,10 @@ const gadgets: Gadget[] = gadgetEntries
 const categories = ['all', ...new Set(gadgets.map(g => g.category))];
 ---
 
-<BaseLayout title="Gadget - Tech Blog" description="愛用しているガジェットやツールの紹介">
+<BaseLayout pageTitle={pageTitle}>
   <Hero
-    title="Gadget"
-    description="愛用しているガジェットやツールの紹介"
+    title={pageTitle}
+    description={pageDescription}
     variant="gadget"
   />
 

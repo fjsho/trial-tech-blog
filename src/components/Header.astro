@@ -3,16 +3,12 @@ import Logo from './Logo.astro';
 import Navigation from './Navigation.astro';
 import Social from './Social.astro';
 
-interface Props {
-  currentPath: string;
-}
-
-const { currentPath } = Astro.props;
+const { title, currentPath } = Astro.props;
 ---
 
 <header class="header">
 	<div class="header-container">
-		<Logo />
+		<Logo title={title} />
 		<Navigation currentPath={currentPath} />
 		<Social />
 	</div>

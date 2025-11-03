@@ -2,14 +2,21 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
+
+const pageTitle = 'About';
+const pageDescription = '私とこのサイトについて';
+
 ---
 
-<BaseLayout title="About - Tech Blog" description="プログラミング、ガジェット、読書を愛するエンジニアについて">
-  <Hero title="About Me" />
+<BaseLayout pageTitle={pageTitle}>
+  <Hero
+    title={pageTitle}
+    description={pageDescription}
+   />
 
   <Section maxWidth="800px">
     <div class="content">
-      <h2 class="section-title">自己紹介</h2>
+      <h2 class="section-title">私について</h2>
       <p class="text">
         プログラミング、ガジェット、読書を愛するエンジニアです。<br />
         日々の技術的な学びや経験、愛用しているガジェット、読んだ本の記録をこのサイトで共有しています。
@@ -23,10 +30,10 @@ import Section from '../components/Section.astro';
 
       <div class="interests">
         <div class="interest-card programming">
-          <h3 class="interest-title">Programming</h3>
+          <h3 class="interest-title">Blog</h3>
           <p class="interest-text">
-            技術的なメモやスキルアップの記録を残しています。<br />
-            Zenn、Qiitaなどのプラットフォームで投稿した記事も一括で確認できます。
+            Zenn、Qiitaなどのプラットフォームに投稿した記事の一覧です。<br />
+            技術的なメモや学んだことについてのアウトプット。
           </p>
         </div>
 
@@ -39,9 +46,9 @@ import Section from '../components/Section.astro';
         </div>
 
         <div class="interest-card book">
-          <h3 class="interest-title">book</h3>
+          <h3 class="interest-title">Book</h3>
           <p class="interest-text">
-            読んだ技術書の記録とレビューを公開しています。<br />
+            これまでに読んできた技術書の記録です。<br />
             読書を通じて得た知識や気づきを共有します。
           </p>
         </div>

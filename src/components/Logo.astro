@@ -1,7 +1,8 @@
 ---
+const { title } = Astro.props;
 ---
 
-<a href="/" class="logo">Tech Blog</a>
+<a href="/" class="logo">{title}</a>
 
 <style>
 	.logo {

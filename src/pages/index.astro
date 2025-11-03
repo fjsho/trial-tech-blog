@@ -2,12 +2,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
+const pageTitle = 'Home';
+const heroTitle = 'くじらのTech';
+const heroDescription = 'プログラミングのこと、好きなガジェット、読書の記録';
 ---
 
-<BaseLayout title="Tech Blog - Home" description="プログラミング、ガジェット、読書の記録">
+<BaseLayout pageTitle={pageTitle}>
   <Hero
-    title="Tech Blog"
-    description="プログラミング、ガジェット、読書の記録を通して<br />エンジニアとしての学びと成長を共有します"
+    title={heroTitle}
+    description={heroDescription}
     size="large"
   />
 

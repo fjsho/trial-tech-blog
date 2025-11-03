@@ -7,6 +7,9 @@ import BookCard from '../components/BookCard.astro';
 import { getCollection } from 'astro:content';
 import type { Book } from '../lib/types/book';
 
+const pageTitle = 'Book';
+const pageDescription = 'これまで読んだ技術書の記録';
+
 const bookEntries = await getCollection('books');
 
 // Sort by read_date descending, nulls last
@@ -20,10 +23,10 @@ const books: Book[] = bookEntries
   });
 ---
 
-<BaseLayout title="Book - Tech Blog" description="読んだ技術書の記録とレビュー">
+<BaseLayout pageTitle={pageTitle}>
   <Hero
-    title="Book"
-    description="読んだ技術書の記録とレビュー"
+    title={pageTitle}
+    description={pageDescription}
     variant="book"
   />
 

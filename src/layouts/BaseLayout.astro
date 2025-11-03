@@ -6,12 +6,9 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-interface Props {
-  title?: string;
-  description?: string;
-}
-
-const { title = 'Tech Blog', description = 'プログラミング、ガジェット、読書の記録' } = Astro.props;
+const { pageTitle } = Astro.props;
+const title = 'くじらのTech';
+const description = 'プログラミング、ガジェット、読書の記録'
 const currentPath = Astro.url.pathname;
 ---
 
@@ -23,13 +20,13 @@ const currentPath = Astro.url.pathname;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
-		<title>{title}</title>
+		<title>{title} | {pageTitle}</title>
 	</head>
 	<body>
-		<Header currentPath={currentPath} />
+		<Header title={title} currentPath={currentPath} />
 		<main class="main">
 			<slot />
 		</main>
-		<Footer />
+		<Footer title={title} />
 	</body>
 </html>

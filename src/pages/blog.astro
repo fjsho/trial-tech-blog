@@ -8,6 +8,9 @@ import type { BlogPost as BlogPostType } from '../lib/types/blogPost';
 import { fetchQiitaArticles } from '../lib/api/qiita';
 import { fetchZennArticles } from '../lib/api/zenn';
 
+const pageTitle = 'Blog';
+const pageDescription = '学んだことや技術についてのメモや記事';
+
 // QiitaとZennの記事情報を取得
 const qiitaArticles: BlogPostType[] = await fetchQiitaArticles();
 const zennArticles: BlogPostType[] = await fetchZennArticles();
@@ -18,10 +21,10 @@ const blogPosts: BlogPostType[] = [...qiitaArticles, ...zennArticles].sort(
 );
 ---
 
-<BaseLayout title="Blog - Tech Blog" description="技術メモ、スキルアップの記録、外部プラットフォーム記事">
+<BaseLayout pageTitle={pageTitle}>
   <Hero
-    title="Blog"
-    description="技術メモ、スキルアップの記録、Zenn/Qiita記事"
+    title={pageTitle}
+    description={pageDescription}
     variant="blog"
   />
 
