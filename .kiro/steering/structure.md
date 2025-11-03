@@ -40,27 +40,27 @@
 ```
 src/
 ├── components/         # 再利用可能なAstroコンポーネント
-│   ├── EmptyState.astro  # 空状態表示コンポーネント
-│   ├── Footer.astro      # フッターコンポーネント
-│   ├── Header.astro      # ヘッダーコンテナコンポーネント
-│   ├── Hero.astro        # ヒーローセクションコンポーネント
-│   ├── Logo.astro        # ロゴリンクコンポーネント
-│   ├── Navigation.astro  # ナビゲーションメニューコンポーネント
-│   ├── Section.astro     # セクションレイアウトコンポーネント
-│   └── Social.astro      # ソーシャルメディアリンクコンポーネント
+│   ├── BlogPostCard.astro # ブログ記事カード表示コンポーネント
+│   ├── BookCard.astro     # 読書カード表示コンポーネント
+│   ├── EmptyState.astro   # 空状態表示コンポーネント
+│   ├── Footer.astro       # フッターコンポーネント
+│   ├── GadgetCard.astro   # ガジェットカード表示コンポーネント
+│   ├── Header.astro       # ヘッダーコンテナコンポーネント
+│   ├── Hero.astro         # ヒーローセクションコンポーネント
+│   ├── Logo.astro         # ロゴリンクコンポーネント
+│   ├── Navigation.astro   # ナビゲーションメニューコンポーネント
+│   ├── Section.astro      # セクションレイアウトコンポーネント
+│   └── Social.astro       # ソーシャルメディアリンクコンポーネント
 ├── layouts/            # ページレイアウトコンポーネント
-│   └── BaseLayout.astro    # ベースレイアウト (HTML構造、メタタグ)
+│   └── BaseLayout.astro   # ベースレイアウト (HTML構造、メタタグ)
 ├── lib/                # ユーティリティ・ライブラリコード
 │   └── supabase.ts     # Supabaseクライアント初期化と型定義
 ├── pages/              # ルーティングページ (ファイルベースルーティング)
 │   ├── index.astro     # トップページ (/)
 │   ├── about.astro     # アバウトページ (/about)
-│   ├── blog/           # ブログセクション
-│   │   └── index.astro # ブログ一覧 (/blog)
-│   ├── gadget/         # ガジェットセクション
-│   │   └── index.astro # ガジェット一覧 (/gadget)
-│   └── books/          # 読書セクション
-│       └── index.astro # 読書一覧 (/books)
+│   ├── blog.astro      # ブログ一覧ページ (/blog)
+│   ├── gadget.astro    # ガジェット一覧ページ (/gadget)
+│   └── book.astro      # 読書一覧ページ (/book)
 └── styles/             # グローバルスタイル
     └── global.css      # CSS変数・デザイントークン定義
 ```
@@ -119,7 +119,11 @@ BaseLayout.astro (ベースレイアウト)
 ├── [Page Content] (ページ固有のコンテンツ)
 │   ├── Hero.astro (ヒーローセクション)
 │   ├── Section.astro (セクションコンテナ)
-│   └── EmptyState.astro (空状態表示)
+│   │   ├── BlogPostCard.astro (ブログカード)
+│   │   ├── GadgetCard.astro (ガジェットカード)
+│   │   ├── BookCard.astro (読書カード)
+│   │   └── EmptyState.astro (空状態表示)
+│   └── ...
 └── Footer.astro
 ```
 
@@ -131,15 +135,14 @@ BaseLayout.astro (ベースレイアウト)
   - Header/Footerコンポーネントの配置
 
 ### 再利用可能コンポーネント
+
+#### レイアウト・構造コンポーネント
 - `Hero.astro`: ページトップのヒーローセクション
   - Props: `title`, `description?`, `variant?`, `size?`
   - バリアント別グラデーション対応
 - `Section.astro`: セクションレイアウトコンテナ
   - Props: `variant?`, `maxWidth?`, `class?`
   - 一貫したパディングとコンテナ幅管理
-- `EmptyState.astro`: 空状態表示
-  - Props: `message`
-  - ブログ/ガジェット/読書記録が未登録時の表示
 - `Header.astro`: ヘッダーコンテナ
   - Logo, Navigation, Socialのコンポジション
 - `Footer.astro`: フッター（著作権表示）
@@ -147,6 +150,25 @@ BaseLayout.astro (ベースレイアウト)
 - `Navigation.astro`: ナビゲーションメニュー
   - Props: `currentPath` (アクティブ状態管理)
 - `Social.astro`: ソーシャルメディアリンク
+
+#### カード表示コンポーネント
+- `BlogPostCard.astro`: ブログ記事カード
+  - Props: `post: BlogPost`
+  - 投稿日、プラットフォーム、タイトル、説明、タグ表示
+  - 外部リンク/内部リンクの自動切り替え
+- `GadgetCard.astro`: ガジェットカード
+  - Props: `gadget: Gadget`
+  - 画像、タイトル、カテゴリ、説明、タグ、リンク表示
+  - レビュー記事・Amazon購入リンク対応
+- `BookCard.astro`: 読書カード
+  - Props: `book: Book`
+  - 書籍表紙、タイトル、著者、評価、読了日、説明、タグ表示
+  - レビュー記事・Amazon購入リンク対応
+
+#### その他コンポーネント
+- `EmptyState.astro`: 空状態表示
+  - Props: `message`
+  - ブログ/ガジェット/読書記録が未登録時の表示
 
 ### データアクセスパターン
 ```typescript
@@ -162,9 +184,9 @@ const { data, error } = await supabase
 ## File Naming Conventions
 
 ### Astroファイル
-- **PascalCase**: コンポーネント名 (`Layout.astro`)
-- **lowercase**: ページファイル (`index.astro`, `about.astro`)
-- **ディレクトリベースルーティング**: `pages/blog/index.astro` → `/blog`
+- **PascalCase**: コンポーネント名 (`BaseLayout.astro`, `BlogPostCard.astro`)
+- **lowercase**: ページファイル (`index.astro`, `about.astro`, `blog.astro`)
+- **フラットルーティング**: `pages/blog.astro` → `/blog`
 
 ### TypeScript/JavaScriptファイル
 - **lowercase + hyphen**: ユーティリティファイル (`supabase.ts`)
@@ -193,7 +215,10 @@ const { data, error } = await supabase
 
 ### 1. ファイルベースルーティング
 - `src/pages/`ディレクトリ構造がURLに直接マッピング
-- `index.astro`はディレクトリのルート
+- シンプルなフラットルーティング構造
+  - `pages/blog.astro` → `/blog`
+  - `pages/gadget.astro` → `/gadget`
+  - `pages/book.astro` → `/book`
 - 動的ルート未使用 (現時点では静的ページのみ)
 
 ### 2. コンポーネント分離
@@ -219,8 +244,10 @@ const { data, error } = await supabase
   - `Hero.astro`: variant/size propsで異なるスタイルを実現
   - `Section.astro`: maxWidth/variant propsでレイアウト調整
   - `Navigation.astro`: currentPath propsでアクティブ状態管理
+  - カードコンポーネント: データオブジェクトをpropsで受け取り表示
 - **コンテナコンポーネント**: Header.astroのように子コンポーネントを配置
 - **スロット**: BaseLayout.astroで子要素を柔軟に配置
+- **データ駆動カード**: BlogPostCard, GadgetCard, BookCardは型付きデータを受け取り一貫した表示を提供
 
 ### 5. 型安全性
 - TypeScript strict モード有効
