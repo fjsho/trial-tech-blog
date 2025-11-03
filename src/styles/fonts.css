@@ -1,0 +1,43 @@
+/* ============================================
+   フォント定義 - FOUTを最小限に抑える
+   ============================================ */
+
+/*
+ * font-display: fallback を使用
+ *
+ * この設定により：
+ * - 約100msのブロック期間でテキストを非表示
+ * - 3秒のスワップ期間内にフォントが読み込まれれば切り替え
+ * - 3秒を超えた場合はフォールバックフォントを使い続ける
+ * - swapよりもちらつきが少なく、optionalよりも確実にWebフォントを表示
+ */
+
+/* Noto Sans JP - Regular (400) */
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-display: fallback;
+  font-weight: 400;
+  src: url('@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-400-normal.woff2') format('woff2'),
+       url('@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-400-normal.woff') format('woff');
+}
+
+/* Noto Sans JP - Medium (500) */
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-display: fallback;
+  font-weight: 500;
+  src: url('@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-500-normal.woff2') format('woff2'),
+       url('@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-500-normal.woff') format('woff');
+}
+
+/* Noto Sans JP - Bold (700) */
+@font-face {
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-display: fallback;
+  font-weight: 700;
+  src: url('@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-700-normal.woff2') format('woff2'),
+       url('@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-700-normal.woff') format('woff');
+}
