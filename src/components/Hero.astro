@@ -3,10 +3,9 @@ interface Props {
   title: string;
   description?: string;
   variant?: 'home' | 'about' | 'blog' | 'gadget' | 'book';
-  size?: 'large' | 'small';
 }
 
-const { title, description, variant = 'home', size = 'small' } = Astro.props;
+const { title, description, variant = 'home' } = Astro.props;
 
 const gradientMap = {
   home: 'linear-gradient(135deg, #3a2782 0%, #009dc8 100%)',
@@ -19,7 +18,7 @@ const gradientMap = {
 const gradient = gradientMap[variant];
 ---
 
-<div class={`hero ${size === 'large' ? 'hero-large' : 'hero-small'}`} style={`background: ${gradient};`}>
+<div class="hero" style={`background: ${gradient};`}>
 	<div class="hero-container">
 		<h1 class="hero-title">{title}</h1>
 		{description && <p class="hero-description" set:html={description} />}
@@ -30,13 +29,6 @@ const gradient = gradientMap[variant];
 	.hero {
 		color: white;
 		text-align: center;
-	}
-
-	.hero-large {
-		padding: var(--spacing-xl) var(--spacing-md);
-	}
-
-	.hero-small {
 		padding: calc(var(--spacing-xl) * 0.75) var(--spacing-md);
 	}
 
@@ -49,16 +41,7 @@ const gradient = gradientMap[variant];
 		font-weight: var(--font-weight-bold);
 		margin: 0 0 var(--spacing-xs) 0;
 		line-height: 1.2;
-	}
-
-	.hero-large .hero-title {
-		font-size: 3rem;
-		margin-bottom: var(--spacing-sm);
-	}
-
-	.hero-small .hero-title {
 		font-size: 2.5rem;
-		margin-bottom: var(--spacing-xs);
 	}
 
 	.hero-description {
@@ -69,19 +52,11 @@ const gradient = gradientMap[variant];
 	}
 
 	@media (max-width: 768px) {
-		.hero-large {
-			padding: calc(var(--spacing-xl) * 0.75) var(--spacing-sm);
-		}
-
-		.hero-small {
+		.hero {
 			padding: var(--spacing-lg) var(--spacing-sm);
 		}
 
-		.hero-large .hero-title {
-			font-size: 2rem;
-		}
-
-		.hero-small .hero-title {
+		.hero-title {
 			font-size: 2rem;
 		}
 
