@@ -2,17 +2,18 @@
 interface Props {
   title: string;
   description?: string;
-  variant?: 'default' | 'blog' | 'gadget' | 'book';
+  variant?: 'home' | 'about' | 'blog' | 'gadget' | 'book';
   size?: 'large' | 'small';
 }
 
-const { title, description, variant = 'default', size = 'small' } = Astro.props;
+const { title, description, variant = 'home', size = 'small' } = Astro.props;
 
 const gradientMap = {
-  default: 'linear-gradient(135deg, #95c7ec 0%, #7dc2bb 100%)',
+  home: 'linear-gradient(135deg, #3a2782 0%, #009dc8 100%)',
+  about: 'linear-gradient(135deg, #009dc8 0%, #95c7ec 100%)',
   blog: 'linear-gradient(135deg, #95c7ec 0%, #7dc2bb 100%)',
-  gadget: 'linear-gradient(135deg, #7dc2bb 0%, #95c7ec 100%)',
-  book: 'linear-gradient(135deg, #f9d77f 0%, #95c7ec 100%)',
+  gadget: 'linear-gradient(135deg, #7dc2bb 0%, #f9d77f 100%)',
+  book: 'linear-gradient(135deg, #f9d77f 0%, #ec6d81 100%)',
 };
 
 const gradient = gradientMap[variant];
