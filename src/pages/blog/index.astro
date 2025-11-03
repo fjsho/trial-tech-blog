@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
 import Section from '../../components/Section.astro';
+import EmptyState from '../../components/EmptyState.astro';
 import { supabase, type BlogPost } from '../../lib/supabase';
 
 const { data: posts, error } = await supabase
@@ -21,9 +22,7 @@ const blogPosts: BlogPost[] = posts || [];
 
   <Section maxWidth="900px">
     {blogPosts.length === 0 ? (
-      <div class="empty-state">
-        <p>まだ記事が投稿されていません</p>
-      </div>
+      <EmptyState message="まだ記事が投稿されていません" />
     ) : (
       <div class="posts-grid">
         {blogPosts.map((post) => (
@@ -65,17 +64,6 @@ const blogPosts: BlogPost[] = posts || [];
 </Layout>
 
 <style>
-  .empty-state {
-    text-align: center;
-    padding: 4rem 1.5rem;
-    color: #666;
-  }
-
-  .empty-state p {
-    font-size: 1.125rem;
-    margin: 0;
-  }
-
   .posts-grid {
     display: flex;
     flex-direction: column;

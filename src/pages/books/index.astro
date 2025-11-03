@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
 import Section from '../../components/Section.astro';
+import EmptyState from '../../components/EmptyState.astro';
 import { supabase, type Book } from '../../lib/supabase';
 
 const { data: booksData, error } = await supabase
@@ -21,9 +22,7 @@ const books: Book[] = booksData || [];
 
   <Section maxWidth="1200px">
     {books.length === 0 ? (
-      <div class="empty-state">
-        <p>まだ読書記録が登録されていません</p>
-      </div>
+      <EmptyState message="まだ読書記録が登録されていません" />
     ) : (
       <div class="books-grid">
         {books.map((book) => (
@@ -82,17 +81,6 @@ const books: Book[] = booksData || [];
 </Layout>
 
 <style>
-  .empty-state {
-    text-align: center;
-    padding: 4rem 1.5rem;
-    color: #666;
-  }
-
-  .empty-state p {
-    font-size: 1.125rem;
-    margin: 0;
-  }
-
   .books-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));

@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
 import Section from '../../components/Section.astro';
+import EmptyState from '../../components/EmptyState.astro';
 import { supabase, type Gadget } from '../../lib/supabase';
 
 const { data: gadgetsData, error } = await supabase
@@ -34,9 +35,7 @@ const categories = ['all', ...new Set(gadgets.map(g => g.category))];
     </div>
 
     {gadgets.length === 0 ? (
-      <div class="empty-state">
-        <p>まだガジェットが登録されていません</p>
-      </div>
+      <EmptyState message="まだガジェットが登録されていません" />
     ) : (
       <div class="gadgets-grid" id="gadgets-grid">
         {gadgets.map((gadget) => (
@@ -127,17 +126,6 @@ const categories = ['all', ...new Set(gadgets.map(g => g.category))];
   .filter-btn.active {
     background-color: #7dc2bb;
     color: white;
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 4rem 1.5rem;
-    color: #666;
-  }
-
-  .empty-state p {
-    font-size: 1.125rem;
-    margin: 0;
   }
 
   .gadgets-grid {
