@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
 import Section from '../../components/Section.astro';
 import EmptyState from '../../components/EmptyState.astro';
@@ -15,7 +15,7 @@ const gadgets: Gadget[] = gadgetsData || [];
 const categories = ['all', ...new Set(gadgets.map(g => g.category))];
 ---
 
-<Layout title="Gadget - Tech Blog" description="愛用しているガジェットやツールの紹介">
+<BaseLayout title="Gadget - Tech Blog" description="愛用しているガジェットやツールの紹介">
   <Hero
     title="Gadget"
     description="愛用しているガジェットやツールの紹介"
@@ -72,7 +72,7 @@ const categories = ['all', ...new Set(gadgets.map(g => g.category))];
       </div>
     )}
   </Section>
-</Layout>
+</BaseLayout>
 
 <script>
   const filterBtns = document.querySelectorAll('.filter-btn');

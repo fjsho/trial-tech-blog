@@ -1,10 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 ---
 
-<Layout title="About - Tech Blog" description="プログラミング、ガジェット、読書を愛するエンジニアについて">
+<BaseLayout title="About - Tech Blog" description="プログラミング、ガジェット、読書を愛するエンジニアについて">
   <Hero title="About Me" />
 
   <Section maxWidth="800px">
@@ -48,7 +48,7 @@ import Section from '../components/Section.astro';
       </div>
     </div>
   </Section>
-</Layout>
+</BaseLayout>
 
 <style>
   .content {

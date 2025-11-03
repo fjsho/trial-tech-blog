@@ -49,7 +49,7 @@ src/
 │   ├── Section.astro     # セクションレイアウトコンポーネント
 │   └── Social.astro      # ソーシャルメディアリンクコンポーネント
 ├── layouts/            # ページレイアウトコンポーネント
-│   └── Layout.astro    # ベースレイアウト (HTML構造、メタタグ)
+│   └── BaseLayout.astro    # ベースレイアウト (HTML構造、メタタグ)
 ├── lib/                # ユーティリティ・ライブラリコード
 │   └── supabase.ts     # Supabaseクライアント初期化と型定義
 ├── pages/              # ルーティングページ (ファイルベースルーティング)
@@ -90,19 +90,19 @@ supabase/
 ```astro
 ---
 // フロントマター: TypeScript/JavaScriptロジック
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 // データフェッチ、計算、インポート等
 ---
 
 <!-- HTMLテンプレート: コンポーネント合成 -->
-<Layout title="..." description="...">
+<BaseLayout title="..." description="...">
   <Hero title="..." description="..." variant="..." />
   <Section maxWidth="...">
     <!-- ページコンテンツ -->
   </Section>
-</Layout>
+</BaseLayout>
 
 <style>
   /* ページ固有のスコープドCSS */
@@ -111,7 +111,7 @@ import Section from '../components/Section.astro';
 
 ### コンポーネント階層構造
 ```
-Layout.astro (ベースレイアウト)
+BaseLayout.astro (ベースレイアウト)
 ├── Header.astro (ヘッダー構造)
 │   ├── Logo.astro
 │   ├── Navigation.astro
@@ -124,7 +124,7 @@ Layout.astro (ベースレイアウト)
 ```
 
 ### レイアウトコンポーネント
-- `Layout.astro`: 全ページ共通のベースレイアウト
+- `BaseLayout.astro`: 全ページ共通のベースレイアウト
   - HTML構造（head, body）
   - メタタグ設定
   - グローバルスタイル読み込み
@@ -180,13 +180,13 @@ const { data, error } = await supabase
 
 ### インポート順序
 1. 外部ライブラリ (`@fontsource`, `@supabase`)
-2. Astroレイアウトコンポーネント (`Layout.astro`)
+2. Astroレイアウトコンポーネント (`BaseLayout.astro`)
 3. Astro再利用コンポーネント (`Hero.astro`, `Section.astro`)
 4. ローカルモジュール (`../lib/supabase`)
 5. 型定義 (必要に応じて)
 
 ### パス解決
-- **相対パス**: `../layouts/Layout.astro`
+- **相対パス**: `../layouts/BaseLayout.astro`
 - **絶対パス**: 設定なし (現在はTypeScriptの`extends: "astro/tsconfigs/strict"`のみ)
 
 ## Key Architectural Principles
@@ -220,7 +220,7 @@ const { data, error } = await supabase
   - `Section.astro`: maxWidth/variant propsでレイアウト調整
   - `Navigation.astro`: currentPath propsでアクティブ状態管理
 - **コンテナコンポーネント**: Header.astroのように子コンポーネントを配置
-- **スロット**: Layout.astroで子要素を柔軟に配置
+- **スロット**: BaseLayout.astroで子要素を柔軟に配置
 
 ### 5. 型安全性
 - TypeScript strict モード有効

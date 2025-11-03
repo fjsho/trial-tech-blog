@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
 import Section from '../../components/Section.astro';
 import EmptyState from '../../components/EmptyState.astro';
@@ -13,7 +13,7 @@ const { data: booksData, error } = await supabase
 const books: Book[] = booksData || [];
 ---
 
-<Layout title="Books - Tech Blog" description="読んだ技術書の記録とレビュー">
+<BaseLayout title="Books - Tech Blog" description="読んだ技術書の記録とレビュー">
   <Hero
     title="Books"
     description="読んだ技術書の記録とレビュー"
@@ -78,7 +78,7 @@ const books: Book[] = booksData || [];
       </div>
     )}
   </Section>
-</Layout>
+</BaseLayout>
 
 <style>
   .books-grid {

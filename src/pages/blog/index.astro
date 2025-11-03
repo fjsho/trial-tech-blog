@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
 import Section from '../../components/Section.astro';
 import EmptyState from '../../components/EmptyState.astro';
@@ -13,7 +13,7 @@ const { data: posts, error } = await supabase
 const blogPosts: BlogPost[] = posts || [];
 ---
 
-<Layout title="Blog - Tech Blog" description="技術メモ、スキルアップの記録、外部プラットフォーム記事">
+<BaseLayout title="Blog - Tech Blog" description="技術メモ、スキルアップの記録、外部プラットフォーム記事">
   <Hero
     title="Blog"
     description="技術メモ、スキルアップの記録、Zenn/Qiita記事"
@@ -61,7 +61,7 @@ const blogPosts: BlogPost[] = posts || [];
       </div>
     )}
   </Section>
-</Layout>
+</BaseLayout>
 
 <style>
   .posts-grid {
