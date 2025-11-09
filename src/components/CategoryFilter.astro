@@ -1,0 +1,102 @@
+---
+interface Props {
+  categories: string[];
+  targetSelector: string;
+  activeCategory?: string;
+}
+
+const { categories, targetSelector, activeCategory = 'all' } = Astro.props;
+---
+
+<div class="filters-container">
+  <div class="filters" id="filters">
+    {categories.map((category) => (
+      <button
+        class={`filter-btn ${category === activeCategory ? 'active' : ''}`}
+        data-category={category}
+      >
+        {category === 'all' ? 'すべて' : category}
+      </button>
+    ))}
+  </div>
+</div>
+
+<script is:inline define:vars={{ targetSelector }}>
+  function initializeFilter() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const targetCards = document.querySelectorAll(targetSelector);
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.getAttribute('data-category');
+
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        targetCards.forEach(card => {
+          const cardCategory = card.getAttribute('data-category');
+          if (category === 'all' || cardCategory === category) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  // 初回読み込み
+  document.addEventListener('DOMContentLoaded', initializeFilter);
+
+  // Astroのページ遷移時
+  document.addEventListener('astro:page-load', initializeFilter);
+</script>
+
+<style>
+  .filters-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 0;
+  }
+
+  .filters {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 1.25rem;
+    background-color: white;
+    border: 2px solid #7dc2bb;
+    color: #7dc2bb;
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: capitalize;
+  }
+
+  .filter-btn:hover {
+    background-color: rgba(125, 194, 187, 0.1);
+  }
+
+  .filter-btn.active {
+    background-color: #7dc2bb;
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .filters-container {
+      padding: 1.5rem 1rem 0;
+    }
+
+    .filter-btn {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+</style>
